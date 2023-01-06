@@ -68,7 +68,7 @@ extension ContentView {
             )
             
         }
-        .padding(4)
+        .padding(2)
     }
     
 }
