@@ -8,16 +8,86 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @Environment(\.displayScale) var displayScale
+    
+    @State private var sheetPresented : Bool = false
+    
+    @State private var text : String = "Hello World"
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        
+        VStack(alignment: .center, spacing:30) {
+   
+            view()
+       
+            Form{
+                
+                TextField("Text here...", text : $text)
+                  
+            }
+            .frame(width:200, height:100,alignment: .center)
+            .cornerRadius(10)
+            
+            Button(action: {
+                
+                withAnimation{
+               
+                    self.sheetPresented = true
+                   
+                }
+                    
+            }){
+                Text("Generate & Share")
+            }
+            
         }
-        .padding()
+        .sheet(isPresented: $sheetPresented, content: {
+                
+            if let data = render() {
+       
+                ShareView(activityItems: [data])
+           
+            }
+            
+        })
     }
 }
+
+extension ContentView {
+    
+    private func view () -> some View {
+        
+        VStack {
+       
+            VStack {
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundColor(.accentColor)
+                Text(text)
+                .font(.headline)
+            }
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.purple, lineWidth: 1)
+            )
+
+        }
+        .padding(4)
+    }
+  
+    @MainActor
+    private func render() -> UIImage?{
+        
+        let renderer = ImageRenderer(content: view())
+
+        renderer.scale = displayScale
+     
+        return renderer.uiImage
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
