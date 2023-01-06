@@ -69,6 +69,7 @@ extension ContentView {
             
         }
         .padding(2)
+        .background(.clear)
     }
     
 }
