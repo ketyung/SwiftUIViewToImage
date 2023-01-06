@@ -21,13 +21,7 @@ struct ContentView: View {
    
             view()
        
-            Form{
-                
-                TextField("Text here...", text : $text)
-                  
-            }
-            .frame(width:200, height:100,alignment: .center)
-            .cornerRadius(10)
+            form()
             
             Button(action: {
                 
@@ -59,23 +53,41 @@ extension ContentView {
     private func view () -> some View {
         
         VStack {
-       
+            
             VStack {
                 Image(systemName: "globe")
                     .imageScale(.large)
                     .foregroundColor(.accentColor)
                 Text(text)
-                .font(.headline)
+                    .font(.headline)
             }
             .padding()
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.purple, lineWidth: 1)
+                    .stroke(Color.purple, lineWidth: 1)
             )
-
+            
         }
         .padding(4)
     }
+    
+}
+
+extension ContentView {
+    
+    private func form() ->some View {
+        
+        Form{
+            
+            TextField("Text here...", text : $text)
+              
+        }
+        .frame(width:200, height:100,alignment: .center)
+        .cornerRadius(10)
+    }
+}
+
+extension ContentView {
   
     @MainActor
     private func render() -> UIImage?{
